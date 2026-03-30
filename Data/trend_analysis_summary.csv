@@ -1,0 +1,16 @@
+Metric,Value,Period,Confidence
+CAGR (North Strip — Period A (Mar 2023 – Mar 2025)),-46.42%,2022-03 → 2025-03,HIGH CONFIDENCE
+CAGR (South Strip — Period A (Mar 2023 – Mar 2025)),-7.03%,2022-03 → 2025-03,HIGH CONFIDENCE
+CAGR (North Strip — Period B (Apr 2025 – present)),-78.58%,2025-04 → 2026-02,LOW CONFIDENCE — possible data artifact
+CAGR (South Strip — Period B (Apr 2025 – present)),-80.92%,2025-04 → 2026-02,LOW CONFIDENCE — possible data artifact
+Theil-Sen slope (North Strip),"-3.989/mo [-13.507, -0.377]",Period A (≤ Mar 2025),HIGH CONFIDENCE
+OLS slope (North Strip),-5.167/mo (R²=0.740),Period A (≤ Mar 2025),HIGH CONFIDENCE
+Theil-Sen slope (South Strip),"-0.396/mo [-1.159, +0.789]",Period A (≤ Mar 2025),HIGH CONFIDENCE
+OLS slope (South Strip),-0.312/mo (R²=0.335),Period A (≤ Mar 2025),HIGH CONFIDENCE
+Theil-Sen slope (North Strip),"+0.033/mo [-1.855, +0.228]",Period B (> Mar 2025),LOW CONFIDENCE
+OLS slope (North Strip),-1.109/mo (R²=0.347),Period B (> Mar 2025),LOW CONFIDENCE
+Theil-Sen slope (South Strip),"+0.047/mo [-1.443, +0.368]",Period B (> Mar 2025),LOW CONFIDENCE
+OLS slope (South Strip),-1.056/mo (R²=0.286),Period B (> Mar 2025),LOW CONFIDENCE
+Stat Test (ttest),p=0.041025,Significant,Period A only
+Stat Test (paired_ttest),p=0.034389,Significant,Period A only
+Stat Test (ols_interaction),p=0.090741,Not Significant,Period A only

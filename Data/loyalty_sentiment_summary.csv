@@ -1,0 +1,8 @@
+# Sentiment scores derived from brand-owned properties only
+# Caesars: 8 properties | MGM: 12 properties  
+# Non-brand properties excluded to prevent signal contamination
+# MGM Grand missing from Google Maps source (scrape failure)
+# Analysis period: 2022-01-01 to 2026-02 (2026-03 excluded)
+brand,avg_vader_score,avg_textblob_score,trend_slope_vader,trend_slope_textblob,total_reviews,avg_monthly_n,high_confidence_months,data_sources_used
+Caesars Entertainment,0.3316143592677346,0.2271999105412175,-0.004550380924678962,-0.0062241999629191165,1748,34.27450980392157,22,app_store+google_maps
+MGM Resorts,0.24929309262166402,0.16850831800643096,0.0026459771866317624,-0.0018620737120329655,2548,49.96078431372549,29,app_store+google_maps

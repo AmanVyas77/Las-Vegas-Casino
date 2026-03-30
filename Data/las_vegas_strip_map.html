@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_1d61be133ccdcac59f6a7bc2ede4b863 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+    <div style="position: fixed; 
+     bottom: 50px; left: 50px; width: 220px; height: 130px; 
+     background-color: rgba(255, 255, 255, 0.9); z-index:9999; font-size:14px;
+     border:2px solid grey; border-radius: 5px; padding: 10px; font-family: Arial, sans-serif;">
+     <b style="font-size: 16px;">Legend</b><br>
+     <div style="margin-top: 5px;">
+       <i style="background:#2196F3; border-radius:50%; width:12px; height:12px; display:inline-block; margin-right:5px;"></i> North Strip<br>
+       <i style="background:#FF5722; border-radius:50%; width:12px; height:12px; display:inline-block; margin-right:5px;"></i> South Strip<br>
+       <i style="background:#9E9E9E; border-radius:50%; width:12px; height:12px; display:inline-block; margin-right:5px;"></i> No Data<br>
+     </div>
+     <small style="display:block; margin-top: 8px; color: #555;">Circle size = relative traffic index</small>
+    </div>
+    
+    
+    <div style="position: fixed; 
+     top: 10px; left: 50vw; transform: translateX(-50%); width: 450px; height: auto; 
+     background-color: rgba(255, 255, 255, 0.9); z-index:9999; font-size:16px; font-family: Arial, sans-serif;
+     border:2px solid grey; border-radius: 5px; padding: 10px; text-align:center;
+     box-shadow: 2px 2px 5px rgba(0,0,0,0.3);">
+     <b style="font-size: 18px;">Las Vegas Strip — Foot Traffic Proxy Map</b><br>
+     <small style="color: #444;">Source: Google Maps Reviews (Normalized by Room Count)</small>
+    </div>
+    
+    
+            <div class="folium-map" id="map_1d61be133ccdcac59f6a7bc2ede4b863" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_1d61be133ccdcac59f6a7bc2ede4b863 = L.map(
+                "map_1d61be133ccdcac59f6a7bc2ede4b863",
+                {
+                    center: [36.1147, -115.1728],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 14,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_0ded2dd8eeb69f2c65d39b6b4f6bb92a = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_0ded2dd8eeb69f2c65d39b6b4f6bb92a.addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+            var circle_marker_95c970ff5d015dab61169b044e48e2d6 = L.circleMarker(
+                [36.134011, -115.167855],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_59b68a36c89f96e47ee8f245f0a3ab1d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ec683150e847c9a12a4be95cbf20bd5d = $(`<div id="html_ec683150e847c9a12a4be95cbf20bd5d" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Resorts World Las Vegas</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_59b68a36c89f96e47ee8f245f0a3ab1d.setContent(html_ec683150e847c9a12a4be95cbf20bd5d);
+            
+        
+
+        circle_marker_95c970ff5d015dab61169b044e48e2d6.bindPopup(popup_59b68a36c89f96e47ee8f245f0a3ab1d)
+        ;
+
+        
+    
+    
+            circle_marker_95c970ff5d015dab61169b044e48e2d6.bindTooltip(
+                `<div>
+                     Resorts World Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_77a6da3bb6950cd8cb32eddc1be09080 = L.circleMarker(
+                [36.126119, -115.161958],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.677382943701561, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_496ca15f56a420de288710c0ae6a7ce5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ddb5b33c3e18b20b80c2ecfe61af71c6 = $(`<div id="html_ddb5b33c3e18b20b80c2ecfe61af71c6" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Wynn Las Vegas</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 7.66<br>                 <b>Total Reviews:</b> 1456<br>                 <b>Avg Rating:</b> 4.62 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 7             </div>             </div>`)[0];
+                popup_496ca15f56a420de288710c0ae6a7ce5.setContent(html_ddb5b33c3e18b20b80c2ecfe61af71c6);
+            
+        
+
+        circle_marker_77a6da3bb6950cd8cb32eddc1be09080.bindPopup(popup_496ca15f56a420de288710c0ae6a7ce5)
+        ;
+
+        
+    
+    
+            circle_marker_77a6da3bb6950cd8cb32eddc1be09080.bindTooltip(
+                `<div>
+                     Wynn Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4a4c78bc8d749ec24cb5bd9794c1007a = L.marker(
+                [36.126119, -115.161958],
+                {
+}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+            var icon_a2b99446d4c0027186fc2c87d9ed7e93 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+                marker_4a4c78bc8d749ec24cb5bd9794c1007a.setIcon(icon_a2b99446d4c0027186fc2c87d9ed7e93);
+            
+    
+            var circle_marker_210f864e61fb7856120ed31364ddafc2 = L.circleMarker(
+                [36.12944, -115.164314],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_d442c5b8e381bd8096f3281e9c2b13d2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_344052098ba550190d0bcef40c21431e = $(`<div id="html_344052098ba550190d0bcef40c21431e" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Encore at Wynn</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_d442c5b8e381bd8096f3281e9c2b13d2.setContent(html_344052098ba550190d0bcef40c21431e);
+            
+        
+
+        circle_marker_210f864e61fb7856120ed31364ddafc2.bindPopup(popup_d442c5b8e381bd8096f3281e9c2b13d2)
+        ;
+
+        
+    
+    
+            circle_marker_210f864e61fb7856120ed31364ddafc2.bindTooltip(
+                `<div>
+                     Encore at Wynn
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ccd98b47228407065d0815b14152faa1 = L.circleMarker(
+                [36.121174, -115.169653],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_641a0734e359d825b639fb5f82ddf264 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e545c66aeb9be3b9b9e80fd804a76f2f = $(`<div id="html_e545c66aeb9be3b9b9e80fd804a76f2f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">The Venetian Resort</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_641a0734e359d825b639fb5f82ddf264.setContent(html_e545c66aeb9be3b9b9e80fd804a76f2f);
+            
+        
+
+        circle_marker_ccd98b47228407065d0815b14152faa1.bindPopup(popup_641a0734e359d825b639fb5f82ddf264)
+        ;
+
+        
+    
+    
+            circle_marker_ccd98b47228407065d0815b14152faa1.bindTooltip(
+                `<div>
+                     The Venetian Resort
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_10a8d699129ff9c3e8015312a84d9908 = L.circleMarker(
+                [36.12058, -115.181568],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_ae693d9b9eb64f254ee026fc2b57420a = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_9894e95c28d5157e4b03c1f83a835d02 = $(`<div id="html_9894e95c28d5157e4b03c1f83a835d02" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">The Mirage</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 0.33<br>                 <b>Total Reviews:</b> 10<br>                 <b>Avg Rating:</b> 3.50 &#9733;<br>                 <b>Peak Month:</b> 2025-03<br>                 <b>Months of Clean Data:</b> 1             </div>             </div>`)[0];
+                popup_ae693d9b9eb64f254ee026fc2b57420a.setContent(html_9894e95c28d5157e4b03c1f83a835d02);
+            
+        
+
+        circle_marker_10a8d699129ff9c3e8015312a84d9908.bindPopup(popup_ae693d9b9eb64f254ee026fc2b57420a)
+        ;
+
+        
+    
+    
+            circle_marker_10a8d699129ff9c3e8015312a84d9908.bindTooltip(
+                `<div>
+                     The Mirage
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8ac132220e3ef6c4d1e218fd518b2ad7 = L.circleMarker(
+                [36.116638, -115.17039],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.515486258389112, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_867221a0cc304d3f2da79eae5af8e0e3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e55bf0786a3763f16715ead26ac3d18b = $(`<div id="html_e55bf0786a3763f16715ead26ac3d18b" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Flamingo Las Vegas</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 6.95<br>                 <b>Total Reviews:</b> 1443<br>                 <b>Avg Rating:</b> 3.85 &#9733;<br>                 <b>Peak Month:</b> 2025-10<br>                 <b>Months of Clean Data:</b> 6             </div>             </div>`)[0];
+                popup_867221a0cc304d3f2da79eae5af8e0e3.setContent(html_e55bf0786a3763f16715ead26ac3d18b);
+            
+        
+
+        circle_marker_8ac132220e3ef6c4d1e218fd518b2ad7.bindPopup(popup_867221a0cc304d3f2da79eae5af8e0e3)
+        ;
+
+        
+    
+    
+            circle_marker_8ac132220e3ef6c4d1e218fd518b2ad7.bindTooltip(
+                `<div>
+                     Flamingo Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0f5e5006263fa8893636920150074f1a = L.circleMarker(
+                [36.117261, -115.176141],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.944543918010085, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_28880a3a771d200a7c71d35ca4d706d5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_756c9e6cd139ecdaf5364abb0cb842e5 = $(`<div id="html_756c9e6cd139ecdaf5364abb0cb842e5" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Caesars Palace</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 8.83<br>                 <b>Total Reviews:</b> 1398<br>                 <b>Avg Rating:</b> 4.29 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 4             </div>             </div>`)[0];
+                popup_28880a3a771d200a7c71d35ca4d706d5.setContent(html_756c9e6cd139ecdaf5364abb0cb842e5);
+            
+        
+
+        circle_marker_0f5e5006263fa8893636920150074f1a.bindPopup(popup_28880a3a771d200a7c71d35ca4d706d5)
+        ;
+
+        
+    
+    
+            circle_marker_0f5e5006263fa8893636920150074f1a.bindTooltip(
+                `<div>
+                     Caesars Palace
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_a1163d44a43fe6d78add49d6343b16d2 = L.marker(
+                [36.117261, -115.176141],
+                {
+}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+            var icon_7256e40dfe7ed10be22a855f686465c7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+                marker_a1163d44a43fe6d78add49d6343b16d2.setIcon(icon_7256e40dfe7ed10be22a855f686465c7);
+            
+    
+            var circle_marker_dbc0b405e59ad845f4470649c5cf633c = L.circleMarker(
+                [36.137397, -115.159435],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.68699628398636, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_674b0498104870c6ec78f90a0333a07f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4b374ebe2bd0214de5ef3eaa07b8f65f = $(`<div id="html_4b374ebe2bd0214de5ef3eaa07b8f65f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">The Drew Las Vegas (Fontainebleau)</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 7.70<br>                 <b>Total Reviews:</b> 1403<br>                 <b>Avg Rating:</b> 4.55 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 5             </div>             </div>`)[0];
+                popup_674b0498104870c6ec78f90a0333a07f.setContent(html_4b374ebe2bd0214de5ef3eaa07b8f65f);
+            
+        
+
+        circle_marker_dbc0b405e59ad845f4470649c5cf633c.bindPopup(popup_674b0498104870c6ec78f90a0333a07f)
+        ;
+
+        
+    
+    
+            circle_marker_dbc0b405e59ad845f4470649c5cf633c.bindTooltip(
+                `<div>
+                     The Drew Las Vegas (Fontainebleau)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fad0f743810a1b697f9970875c33fef3 = L.circleMarker(
+                [36.136657, -115.162854],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.971994174520574, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_5f83b264e063a06749b7dff31081dc55 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_8b49d1e4530b7c92dacc306a491b4ad4 = $(`<div id="html_8b49d1e4530b7c92dacc306a491b4ad4" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Circus Circus</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 4.58<br>                 <b>Total Reviews:</b> 1379<br>                 <b>Avg Rating:</b> 3.55 &#9733;<br>                 <b>Peak Month:</b> 2025-11<br>                 <b>Months of Clean Data:</b> 8             </div>             </div>`)[0];
+                popup_5f83b264e063a06749b7dff31081dc55.setContent(html_8b49d1e4530b7c92dacc306a491b4ad4);
+            
+        
+
+        circle_marker_fad0f743810a1b697f9970875c33fef3.bindPopup(popup_5f83b264e063a06749b7dff31081dc55)
+        ;
+
+        
+    
+    
+            circle_marker_fad0f743810a1b697f9970875c33fef3.bindTooltip(
+                `<div>
+                     Circus Circus
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_180b275794cf598f123414d927d4d71f = L.circleMarker(
+                [36.142355, -115.156723],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.133753421812266, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_7aa530deb5c8285b195fc30f32c963cb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ca572d31b731a312c0f0891abd7b2177 = $(`<div id="html_ca572d31b731a312c0f0891abd7b2177" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">SLS Las Vegas (Sahara)</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 9.65<br>                 <b>Total Reviews:</b> 1403<br>                 <b>Avg Rating:</b> 4.18 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 8             </div>             </div>`)[0];
+                popup_7aa530deb5c8285b195fc30f32c963cb.setContent(html_ca572d31b731a312c0f0891abd7b2177);
+            
+        
+
+        circle_marker_180b275794cf598f123414d927d4d71f.bindPopup(popup_7aa530deb5c8285b195fc30f32c963cb)
+        ;
+
+        
+    
+    
+            circle_marker_180b275794cf598f123414d927d4d71f.bindTooltip(
+                `<div>
+                     SLS Las Vegas (Sahara)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e47df0a9f41e7586e73bd7e0ae0e494b = L.circleMarker(
+                [36.126223, -115.16673],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_e1c75e8fbf51af4ad70b34dc4be7d30c = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f6827c98809b5deccdcb3364bf1a4237 = $(`<div id="html_f6827c98809b5deccdcb3364bf1a4237" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">SW Steakhouse (Wynn)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_e1c75e8fbf51af4ad70b34dc4be7d30c.setContent(html_f6827c98809b5deccdcb3364bf1a4237);
+            
+        
+
+        circle_marker_e47df0a9f41e7586e73bd7e0ae0e494b.bindPopup(popup_e1c75e8fbf51af4ad70b34dc4be7d30c)
+        ;
+
+        
+    
+    
+            circle_marker_e47df0a9f41e7586e73bd7e0ae0e494b.bindTooltip(
+                `<div>
+                     SW Steakhouse (Wynn)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a1fcd8d31a8012afc3bf5121d82b08d6 = L.circleMarker(
+                [36.126869, -115.167379],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_07b33cf777538b90ad65d5ba154ead0f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1afd25a6cb3d1fafd44cd5c00841fb86 = $(`<div id="html_1afd25a6cb3d1fafd44cd5c00841fb86" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Mizumi (Wynn)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_07b33cf777538b90ad65d5ba154ead0f.setContent(html_1afd25a6cb3d1fafd44cd5c00841fb86);
+            
+        
+
+        circle_marker_a1fcd8d31a8012afc3bf5121d82b08d6.bindPopup(popup_07b33cf777538b90ad65d5ba154ead0f)
+        ;
+
+        
+    
+    
+            circle_marker_a1fcd8d31a8012afc3bf5121d82b08d6.bindTooltip(
+                `<div>
+                     Mizumi (Wynn)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_684e6be8d1bb7501b436b834cfd28a06 = L.circleMarker(
+                [36.127107, -115.16483],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_777553f141c1f7d7550338e92e4ab6c3 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_190b0f203b71905bd5f6e33185ffc3bb = $(`<div id="html_190b0f203b71905bd5f6e33185ffc3bb" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Delilah (Wynn)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_777553f141c1f7d7550338e92e4ab6c3.setContent(html_190b0f203b71905bd5f6e33185ffc3bb);
+            
+        
+
+        circle_marker_684e6be8d1bb7501b436b834cfd28a06.bindPopup(popup_777553f141c1f7d7550338e92e4ab6c3)
+        ;
+
+        
+    
+    
+            circle_marker_684e6be8d1bb7501b436b834cfd28a06.bindTooltip(
+                `<div>
+                     Delilah (Wynn)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_046d8b3f32df3623e7beebf8dfeff433 = L.circleMarker(
+                [36.12266, -115.170087],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_c7d4af8b1d0b6e0662380f7a9b524b3f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_adc0ccc09dea4f72c7363375a9a5ca31 = $(`<div id="html_adc0ccc09dea4f72c7363375a9a5ca31" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">TAO Asian Bistro (The Venetian)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_c7d4af8b1d0b6e0662380f7a9b524b3f.setContent(html_adc0ccc09dea4f72c7363375a9a5ca31);
+            
+        
+
+        circle_marker_046d8b3f32df3623e7beebf8dfeff433.bindPopup(popup_c7d4af8b1d0b6e0662380f7a9b524b3f)
+        ;
+
+        
+    
+    
+            circle_marker_046d8b3f32df3623e7beebf8dfeff433.bindTooltip(
+                `<div>
+                     TAO Asian Bistro (The Venetian)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_35f9d8885aba4129afb6eeb1c3f865e5 = L.circleMarker(
+                [36.123214, -115.170118],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_32b6f486cb26c87dd7dd1a59ed57942e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_078f1a297cb094b6246987ca8e657395 = $(`<div id="html_078f1a297cb094b6246987ca8e657395" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Buddy V's Ristorante (The Venetian)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_32b6f486cb26c87dd7dd1a59ed57942e.setContent(html_078f1a297cb094b6246987ca8e657395);
+            
+        
+
+        circle_marker_35f9d8885aba4129afb6eeb1c3f865e5.bindPopup(popup_32b6f486cb26c87dd7dd1a59ed57942e)
+        ;
+
+        
+    
+    
+            circle_marker_35f9d8885aba4129afb6eeb1c3f865e5.bindTooltip(
+                `<div>
+                     Buddy V's Ristorante (The Venetian)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1816bf4b8e1617d597d5aadd93eef8ed = L.circleMarker(
+                [36.120918, -115.169239],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_a30c41bc13f54accf6cabd4859442d06 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1813e56bfab0c478a756eeeaf7d912a8 = $(`<div id="html_1813e56bfab0c478a756eeeaf7d912a8" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Bouchon (The Venetian)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_a30c41bc13f54accf6cabd4859442d06.setContent(html_1813e56bfab0c478a756eeeaf7d912a8);
+            
+        
+
+        circle_marker_1816bf4b8e1617d597d5aadd93eef8ed.bindPopup(popup_a30c41bc13f54accf6cabd4859442d06)
+        ;
+
+        
+    
+    
+            circle_marker_1816bf4b8e1617d597d5aadd93eef8ed.bindTooltip(
+                `<div>
+                     Bouchon (The Venetian)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4084153f3a9fb8b1db8a47c5eebbf00f = L.circleMarker(
+                [36.118438, -115.172402],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_37ffe4bb4f5cf47f583a546814490e0b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1165861f6a18f110756193a233eb6d8a = $(`<div id="html_1165861f6a18f110756193a233eb6d8a" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Guy Fieri's Vegas Kitchen (The LINQ)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_37ffe4bb4f5cf47f583a546814490e0b.setContent(html_1165861f6a18f110756193a233eb6d8a);
+            
+        
+
+        circle_marker_4084153f3a9fb8b1db8a47c5eebbf00f.bindPopup(popup_37ffe4bb4f5cf47f583a546814490e0b)
+        ;
+
+        
+    
+    
+            circle_marker_4084153f3a9fb8b1db8a47c5eebbf00f.bindTooltip(
+                `<div>
+                     Guy Fieri's Vegas Kitchen (The LINQ)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ceaa627dff79e2a2a8001738b113f887 = L.circleMarker(
+                [36.10996, -115.175416],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.471400939916789, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_3b3708717f3ce5ed481a851dd56a3328 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e34d89a5690c67c3a2d23ddeae231ce0 = $(`<div id="html_e34d89a5690c67c3a2d23ddeae231ce0" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">The Cosmopolitan</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 6.76<br>                 <b>Total Reviews:</b> 1432<br>                 <b>Avg Rating:</b> 4.29 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 7             </div>             </div>`)[0];
+                popup_3b3708717f3ce5ed481a851dd56a3328.setContent(html_e34d89a5690c67c3a2d23ddeae231ce0);
+            
+        
+
+        circle_marker_ceaa627dff79e2a2a8001738b113f887.bindPopup(popup_3b3708717f3ce5ed481a851dd56a3328)
+        ;
+
+        
+    
+    
+            circle_marker_ceaa627dff79e2a2a8001738b113f887.bindTooltip(
+                `<div>
+                     The Cosmopolitan
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_80f7cc6af779a523c5a9e9358d1400bc = L.circleMarker(
+                [36.124005, -115.167958],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.819909047386803, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_8cc8a88dc743d99ba4b6be74b474f2b9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b64514d6fd9bdb2ee74ac8d0401e8f02 = $(`<div id="html_b64514d6fd9bdb2ee74ac8d0401e8f02" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">The Palazzo</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 3.91<br>                 <b>Total Reviews:</b> 1440<br>                 <b>Avg Rating:</b> 4.52 &#9733;<br>                 <b>Peak Month:</b> 2025-07<br>                 <b>Months of Clean Data:</b> 12             </div>             </div>`)[0];
+                popup_8cc8a88dc743d99ba4b6be74b474f2b9.setContent(html_b64514d6fd9bdb2ee74ac8d0401e8f02);
+            
+        
+
+        circle_marker_80f7cc6af779a523c5a9e9358d1400bc.bindPopup(popup_8cc8a88dc743d99ba4b6be74b474f2b9)
+        ;
+
+        
+    
+    
+            circle_marker_80f7cc6af779a523c5a9e9358d1400bc.bindTooltip(
+                `<div>
+                     The Palazzo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9649f9b3e281ceb1520a238fe8ba2a4b = L.circleMarker(
+                [36.117622, -115.171919],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_fd952e43bd38ce55fc4de3d036c9adb4 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_c7287150257f982114a50cda139ad9d6 = $(`<div id="html_c7287150257f982114a50cda139ad9d6" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Gordon Ramsay Fish & Chips (The LINQ)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_fd952e43bd38ce55fc4de3d036c9adb4.setContent(html_c7287150257f982114a50cda139ad9d6);
+            
+        
+
+        circle_marker_9649f9b3e281ceb1520a238fe8ba2a4b.bindPopup(popup_fd952e43bd38ce55fc4de3d036c9adb4)
+        ;
+
+        
+    
+    
+            circle_marker_9649f9b3e281ceb1520a238fe8ba2a4b.bindTooltip(
+                `<div>
+                     Gordon Ramsay Fish & Chips (The LINQ)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_db54157887ac547ebfb0298922e659e3 = L.circleMarker(
+                [36.116849, -115.17531],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_65802c7c9802a1b2c4ed550327c69610 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_405dc50e81d818e37cf94edfbc9be4f5 = $(`<div id="html_405dc50e81d818e37cf94edfbc9be4f5" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Nobu Restaurant (Caesars Palace)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_65802c7c9802a1b2c4ed550327c69610.setContent(html_405dc50e81d818e37cf94edfbc9be4f5);
+            
+        
+
+        circle_marker_db54157887ac547ebfb0298922e659e3.bindPopup(popup_65802c7c9802a1b2c4ed550327c69610)
+        ;
+
+        
+    
+    
+            circle_marker_db54157887ac547ebfb0298922e659e3.bindTooltip(
+                `<div>
+                     Nobu Restaurant (Caesars Palace)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_77e5b606a749e8cc200d0e111a40ef67 = L.circleMarker(
+                [36.112946, -115.176507],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.665364790066786, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_5cb475ba140450da59f961bc825dce6f = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_1c978fe5b06534306805d2dad9773d2b = $(`<div id="html_1c978fe5b06534306805d2dad9773d2b" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Bellagio</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 11.98<br>                 <b>Total Reviews:</b> 1413<br>                 <b>Avg Rating:</b> 4.64 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 3             </div>             </div>`)[0];
+                popup_5cb475ba140450da59f961bc825dce6f.setContent(html_1c978fe5b06534306805d2dad9773d2b);
+            
+        
+
+        circle_marker_77e5b606a749e8cc200d0e111a40ef67.bindPopup(popup_5cb475ba140450da59f961bc825dce6f)
+        ;
+
+        
+    
+    
+            circle_marker_77e5b606a749e8cc200d0e111a40ef67.bindTooltip(
+                `<div>
+                     Bellagio
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_0330c7172f9464c5eee27d6aeb87121a = L.marker(
+                [36.112946, -115.176507],
+                {
+}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+            var icon_a0ec921d7bdb671750d06e8eda7365fb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+                marker_0330c7172f9464c5eee27d6aeb87121a.setIcon(icon_a0ec921d7bdb671750d06e8eda7365fb);
+            
+    
+            var circle_marker_ec306b5275e601b7a1bedd08c5786b39 = L.circleMarker(
+                [36.10737, -115.176753],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.09892512902405, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_b6925d37edda56264deaefe81dc480a9 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_aaf233ffa5378f63f0f6ec2f93debe80 = $(`<div id="html_aaf233ffa5378f63f0f6ec2f93debe80" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">ARIA Resort & Casino</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 5.13<br>                 <b>Total Reviews:</b> 1438<br>                 <b>Avg Rating:</b> 4.10 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 7             </div>             </div>`)[0];
+                popup_b6925d37edda56264deaefe81dc480a9.setContent(html_aaf233ffa5378f63f0f6ec2f93debe80);
+            
+        
+
+        circle_marker_ec306b5275e601b7a1bedd08c5786b39.bindPopup(popup_b6925d37edda56264deaefe81dc480a9)
+        ;
+
+        
+    
+    
+            circle_marker_ec306b5275e601b7a1bedd08c5786b39.bindTooltip(
+                `<div>
+                     ARIA Resort & Casino
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_921082e6adb862711e73b7ef38e59003 = L.circleMarker(
+                [36.10997, -115.170065],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.114548911439325, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_70c1452692fc7201892eab3126d322a7 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_f7e5e8c73777c11cc60520cb3a35f681 = $(`<div id="html_f7e5e8c73777c11cc60520cb3a35f681" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Planet Hollywood</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 9.57<br>                 <b>Total Reviews:</b> 1433<br>                 <b>Avg Rating:</b> 4.08 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 6             </div>             </div>`)[0];
+                popup_70c1452692fc7201892eab3126d322a7.setContent(html_f7e5e8c73777c11cc60520cb3a35f681);
+            
+        
+
+        circle_marker_921082e6adb862711e73b7ef38e59003.bindPopup(popup_70c1452692fc7201892eab3126d322a7)
+        ;
+
+        
+    
+    
+            circle_marker_921082e6adb862711e73b7ef38e59003.bindTooltip(
+                `<div>
+                     Planet Hollywood
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cc1c1f2fdc44499055d144c95f36ca47 = L.circleMarker(
+                [36.112462, -115.170708],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.663730563820435, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_b3d793a5bd5937c56ecc3ce4b5a38a0d = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_adc868ba606ade94cd34bc250248f4bc = $(`<div id="html_adc868ba606ade94cd34bc250248f4bc" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Paris Las Vegas</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 11.97<br>                 <b>Total Reviews:</b> 1396<br>                 <b>Avg Rating:</b> 4.10 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 4             </div>             </div>`)[0];
+                popup_b3d793a5bd5937c56ecc3ce4b5a38a0d.setContent(html_adc868ba606ade94cd34bc250248f4bc);
+            
+        
+
+        circle_marker_cc1c1f2fdc44499055d144c95f36ca47.bindPopup(popup_b3d793a5bd5937c56ecc3ce4b5a38a0d)
+        ;
+
+        
+    
+    
+            circle_marker_cc1c1f2fdc44499055d144c95f36ca47.bindTooltip(
+                `<div>
+                     Paris Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_32a5a2fa6ae81c5686ae47057ffee8eb = L.circleMarker(
+                [36.113714, -115.167789],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.866817571369383, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_7be23bf9e03b0c0d75763ed4f9719e17 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b63a7a7039499747f1533ea6d5a3f67d = $(`<div id="html_b63a7a7039499747f1533ea6d5a3f67d" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Bally's Las Vegas (Horseshoe)</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 4.12<br>                 <b>Total Reviews:</b> 1390<br>                 <b>Avg Rating:</b> 3.66 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 12             </div>             </div>`)[0];
+                popup_7be23bf9e03b0c0d75763ed4f9719e17.setContent(html_b63a7a7039499747f1533ea6d5a3f67d);
+            
+        
+
+        circle_marker_32a5a2fa6ae81c5686ae47057ffee8eb.bindPopup(popup_7be23bf9e03b0c0d75763ed4f9719e17)
+        ;
+
+        
+    
+    
+            circle_marker_32a5a2fa6ae81c5686ae47057ffee8eb.bindTooltip(
+                `<div>
+                     Bally's Las Vegas (Horseshoe)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fe14eaba9652c726695a11b7f83b9733 = L.circleMarker(
+                [36.124746, -115.172083],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.523727138140094, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_d693cac1bde4e6b2962bb88a0145f090 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b05af3b8ab0e9207e14832ae9279ea86 = $(`<div id="html_b05af3b8ab0e9207e14832ae9279ea86" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Treasure Island (TI)</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 6.99<br>                 <b>Total Reviews:</b> 1411<br>                 <b>Avg Rating:</b> 4.17 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 7             </div>             </div>`)[0];
+                popup_d693cac1bde4e6b2962bb88a0145f090.setContent(html_b05af3b8ab0e9207e14832ae9279ea86);
+            
+        
+
+        circle_marker_fe14eaba9652c726695a11b7f83b9733.bindPopup(popup_d693cac1bde4e6b2962bb88a0145f090)
+        ;
+
+        
+    
+    
+            circle_marker_fe14eaba9652c726695a11b7f83b9733.bindTooltip(
+                `<div>
+                     Treasure Island (TI)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dc6b2e38efca230082489223a857fe80 = L.circleMarker(
+                [36.119464, -115.171639],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.924101210679863, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_337f825bf713cba7e18e638806d12340 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4c736891005dcea4fc45da7f5986a9c4 = $(`<div id="html_4c736891005dcea4fc45da7f5986a9c4" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Harrah's Las Vegas</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 4.37<br>                 <b>Total Reviews:</b> 1332<br>                 <b>Avg Rating:</b> 3.64 &#9733;<br>                 <b>Peak Month:</b> 2025-03<br>                 <b>Months of Clean Data:</b> 12             </div>             </div>`)[0];
+                popup_337f825bf713cba7e18e638806d12340.setContent(html_4c736891005dcea4fc45da7f5986a9c4);
+            
+        
+
+        circle_marker_dc6b2e38efca230082489223a857fe80.bindPopup(popup_337f825bf713cba7e18e638806d12340)
+        ;
+
+        
+    
+    
+            circle_marker_dc6b2e38efca230082489223a857fe80.bindTooltip(
+                `<div>
+                     Harrah's Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9cdb0f3e7dc24204ee6b01179acbbff5 = L.circleMarker(
+                [36.118228, -115.171351],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.03196764911966, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_054e81bf5fbfd6ce09524a4b3183f21e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b96b634417745320cbd22738d3eff912 = $(`<div id="html_b96b634417745320cbd22738d3eff912" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">The LINQ Hotel + Experience</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 4.84<br>                 <b>Total Reviews:</b> 1308<br>                 <b>Avg Rating:</b> 3.40 &#9733;<br>                 <b>Peak Month:</b> 2025-03<br>                 <b>Months of Clean Data:</b> 12             </div>             </div>`)[0];
+                popup_054e81bf5fbfd6ce09524a4b3183f21e.setContent(html_b96b634417745320cbd22738d3eff912);
+            
+        
+
+        circle_marker_9cdb0f3e7dc24204ee6b01179acbbff5.bindPopup(popup_054e81bf5fbfd6ce09524a4b3183f21e)
+        ;
+
+        
+    
+    
+            circle_marker_9cdb0f3e7dc24204ee6b01179acbbff5.bindTooltip(
+                `<div>
+                     The LINQ Hotel + Experience
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5ea06ad53678cc60c8b09a6390666d48 = L.circleMarker(
+                [36.120631, -115.17196],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_767e58b2f1937821f06736108c1bfc50 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_792963b1f030816a9bd9033c04645adf = $(`<div id="html_792963b1f030816a9bd9033c04645adf" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Casino Royale</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_767e58b2f1937821f06736108c1bfc50.setContent(html_792963b1f030816a9bd9033c04645adf);
+            
+        
+
+        circle_marker_5ea06ad53678cc60c8b09a6390666d48.bindPopup(popup_767e58b2f1937821f06736108c1bfc50)
+        ;
+
+        
+    
+    
+            circle_marker_5ea06ad53678cc60c8b09a6390666d48.bindTooltip(
+                `<div>
+                     Casino Royale
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_eb9319a068e692bd0fabbb8383eb1693 = L.circleMarker(
+                [36.127478, -115.171197],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_7834f5f672bbc2559c40165a003ab3eb = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7320b3d0cc65bfb86909b62ad7c3cc97 = $(`<div id="html_7320b3d0cc65bfb86909b62ad7c3cc97" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Fashion Show Mall</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_7834f5f672bbc2559c40165a003ab3eb.setContent(html_7320b3d0cc65bfb86909b62ad7c3cc97);
+            
+        
+
+        circle_marker_eb9319a068e692bd0fabbb8383eb1693.bindPopup(popup_7834f5f672bbc2559c40165a003ab3eb)
+        ;
+
+        
+    
+    
+            circle_marker_eb9319a068e692bd0fabbb8383eb1693.bindTooltip(
+                `<div>
+                     Fashion Show Mall
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8409cd11520eeb236ec5179c0e251458 = L.circleMarker(
+                [36.11573, -115.173232],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_8bbc0c33fad20bba392835a591bf6253 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_e8a5feb78b9629665bfe320e25fdb77e = $(`<div id="html_e8a5feb78b9629665bfe320e25fdb77e" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Hell's Kitchen (Caesars Palace)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_8bbc0c33fad20bba392835a591bf6253.setContent(html_e8a5feb78b9629665bfe320e25fdb77e);
+            
+        
+
+        circle_marker_8409cd11520eeb236ec5179c0e251458.bindPopup(popup_8bbc0c33fad20bba392835a591bf6253)
+        ;
+
+        
+    
+    
+            circle_marker_8409cd11520eeb236ec5179c0e251458.bindTooltip(
+                `<div>
+                     Hell's Kitchen (Caesars Palace)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_99ca8dc3d609552af7c23c3feb3c0c03 = L.circleMarker(
+                [36.11649, -115.176146],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_230d3cb327562c9294c15849fa81e738 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_a6674316b1a48af374978ec66d34caec = $(`<div id="html_a6674316b1a48af374978ec66d34caec" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Mr. Chow (Caesars Palace)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_230d3cb327562c9294c15849fa81e738.setContent(html_a6674316b1a48af374978ec66d34caec);
+            
+        
+
+        circle_marker_99ca8dc3d609552af7c23c3feb3c0c03.bindPopup(popup_230d3cb327562c9294c15849fa81e738)
+        ;
+
+        
+    
+    
+            circle_marker_99ca8dc3d609552af7c23c3feb3c0c03.bindTooltip(
+                `<div>
+                     Mr. Chow (Caesars Palace)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f79194a9c0bc8963fd22b2a04a00b96b = L.circleMarker(
+                [36.106028, -115.166753],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.109586670224862, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_31af23f57c1905a7b9baea3006df5d22 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_866807f3c96ffc77ccbd85df5e14b334 = $(`<div id="html_866807f3c96ffc77ccbd85df5e14b334" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">The Signature at MGM Grand</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 5.18<br>                 <b>Total Reviews:</b> 1163<br>                 <b>Avg Rating:</b> 3.96 &#9733;<br>                 <b>Peak Month:</b> 2025-03<br>                 <b>Months of Clean Data:</b> 11             </div>             </div>`)[0];
+                popup_31af23f57c1905a7b9baea3006df5d22.setContent(html_866807f3c96ffc77ccbd85df5e14b334);
+            
+        
+
+        circle_marker_f79194a9c0bc8963fd22b2a04a00b96b.bindPopup(popup_31af23f57c1905a7b9baea3006df5d22)
+        ;
+
+        
+    
+    
+            circle_marker_f79194a9c0bc8963fd22b2a04a00b96b.bindTooltip(
+                `<div>
+                     The Signature at MGM Grand
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2125966ea70cce23433efbe6777cd050 = L.circleMarker(
+                [36.098812, -115.170389],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.956613378243956, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_bcc54a76d1e27b948ab219104093d09b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_832ac9c0183fc32f8181347e231f272d = $(`<div id="html_832ac9c0183fc32f8181347e231f272d" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Tropicana Las Vegas</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 26.36<br>                 <b>Total Reviews:</b> 1160<br>                 <b>Avg Rating:</b> 3.67 &#9733;<br>                 <b>Peak Month:</b> 2024-03<br>                 <b>Months of Clean Data:</b> 3             </div>             </div>`)[0];
+                popup_bcc54a76d1e27b948ab219104093d09b.setContent(html_832ac9c0183fc32f8181347e231f272d);
+            
+        
+
+        circle_marker_2125966ea70cce23433efbe6777cd050.bindPopup(popup_bcc54a76d1e27b948ab219104093d09b)
+        ;
+
+        
+    
+    
+            circle_marker_2125966ea70cce23433efbe6777cd050.bindTooltip(
+                `<div>
+                     Tropicana Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_68d04c8e0232e538a7d7b37866bcaa82 = L.circleMarker(
+                [36.092185, -115.174858],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.50971514304788, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_5dc44817cf771b032631e76a9a0188ed = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_efaef11cd4430ea52c92fc5e4c141d0f = $(`<div id="html_efaef11cd4430ea52c92fc5e4c141d0f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Mandalay Bay</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 2.56<br>                 <b>Total Reviews:</b> 1336<br>                 <b>Avg Rating:</b> 3.80 &#9733;<br>                 <b>Peak Month:</b> 2026-02<br>                 <b>Months of Clean Data:</b> 11             </div>             </div>`)[0];
+                popup_5dc44817cf771b032631e76a9a0188ed.setContent(html_efaef11cd4430ea52c92fc5e4c141d0f);
+            
+        
+
+        circle_marker_68d04c8e0232e538a7d7b37866bcaa82.bindPopup(popup_5dc44817cf771b032631e76a9a0188ed)
+        ;
+
+        
+    
+    
+            circle_marker_68d04c8e0232e538a7d7b37866bcaa82.bindTooltip(
+                `<div>
+                     Mandalay Bay
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cf8b77314cfcf6c890ecd96fed6a8fd0 = L.circleMarker(
+                [36.106433, -115.173732],
+                {"bubblingMouseEvents": true, "color": "#FF5722", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#FF5722", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.572388059302572, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_23d6056d799d5317d2ccddfc8ac08b94 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_df9ab688385a01e4598c95e86e8af50f = $(`<div id="html_df9ab688385a01e4598c95e86e8af50f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">Waldorf Astoria Las Vegas</b><br>                 <b>Strip Region:</b> South<br>                 <b>Avg "Traffic" Index:</b> 24.68<br>                 <b>Total Reviews:</b> 1344<br>                 <b>Avg Rating:</b> 4.48 &#9733;<br>                 <b>Peak Month:</b> 2024-03<br>                 <b>Months of Clean Data:</b> 11             </div>             </div>`)[0];
+                popup_23d6056d799d5317d2ccddfc8ac08b94.setContent(html_df9ab688385a01e4598c95e86e8af50f);
+            
+        
+
+        circle_marker_cf8b77314cfcf6c890ecd96fed6a8fd0.bindPopup(popup_23d6056d799d5317d2ccddfc8ac08b94)
+        ;
+
+        
+    
+    
+            circle_marker_cf8b77314cfcf6c890ecd96fed6a8fd0.bindTooltip(
+                `<div>
+                     Waldorf Astoria Las Vegas
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8b66f7a4706d1692c1b1543191396cdc = L.circleMarker(
+                [36.113304, -115.175054],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_361296f5e2a7a5d4467bc6b21e84e43e = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5c9b0f1700813396d53eba28f5965d6b = $(`<div id="html_5c9b0f1700813396d53eba28f5965d6b" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Lago by Julian Serrano (Bellagio)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_361296f5e2a7a5d4467bc6b21e84e43e.setContent(html_5c9b0f1700813396d53eba28f5965d6b);
+            
+        
+
+        circle_marker_8b66f7a4706d1692c1b1543191396cdc.bindPopup(popup_361296f5e2a7a5d4467bc6b21e84e43e)
+        ;
+
+        
+    
+    
+            circle_marker_8b66f7a4706d1692c1b1543191396cdc.bindTooltip(
+                `<div>
+                     Lago by Julian Serrano (Bellagio)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c8c21a0d6e9e8ec565f03fcff1e9d148 = L.circleMarker(
+                [36.111465, -115.177383],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_2cc4effbbd30d526f5b72edae5be7e2b = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_19975efb93f79cb8e85691d34254075f = $(`<div id="html_19975efb93f79cb8e85691d34254075f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Harvest by Roy Ellamar (Bellagio)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_2cc4effbbd30d526f5b72edae5be7e2b.setContent(html_19975efb93f79cb8e85691d34254075f);
+            
+        
+
+        circle_marker_c8c21a0d6e9e8ec565f03fcff1e9d148.bindPopup(popup_2cc4effbbd30d526f5b72edae5be7e2b)
+        ;
+
+        
+    
+    
+            circle_marker_c8c21a0d6e9e8ec565f03fcff1e9d148.bindTooltip(
+                `<div>
+                     Harvest by Roy Ellamar (Bellagio)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6d3294934391c009bef89ad2c40a9533 = L.circleMarker(
+                [36.107349, -115.176584],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_1b13cae757b1e20dcab1123a37c0c682 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_b57b61a5a7143df2f8e64e53a96f07ed = $(`<div id="html_b57b61a5a7143df2f8e64e53a96f07ed" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Jean Georges Steakhouse (ARIA)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_1b13cae757b1e20dcab1123a37c0c682.setContent(html_b57b61a5a7143df2f8e64e53a96f07ed);
+            
+        
+
+        circle_marker_6d3294934391c009bef89ad2c40a9533.bindPopup(popup_1b13cae757b1e20dcab1123a37c0c682)
+        ;
+
+        
+    
+    
+            circle_marker_6d3294934391c009bef89ad2c40a9533.bindTooltip(
+                `<div>
+                     Jean Georges Steakhouse (ARIA)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2222b4bd33ee0dd46b6feb7746ec6760 = L.circleMarker(
+                [36.107342, -115.177115],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_a554edbf3b31fccdaacabc1b9663d1db = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_efde659b5e24deb747d9e5e8df5eee96 = $(`<div id="html_efde659b5e24deb747d9e5e8df5eee96" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Carbone (ARIA)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_a554edbf3b31fccdaacabc1b9663d1db.setContent(html_efde659b5e24deb747d9e5e8df5eee96);
+            
+        
+
+        circle_marker_2222b4bd33ee0dd46b6feb7746ec6760.bindPopup(popup_a554edbf3b31fccdaacabc1b9663d1db)
+        ;
+
+        
+    
+    
+            circle_marker_2222b4bd33ee0dd46b6feb7746ec6760.bindTooltip(
+                `<div>
+                     Carbone (ARIA)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bb02c5ef8bcd00b9db96b97f4db5b2af = L.circleMarker(
+                [36.109853, -115.174152],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_db4c28f7b430d8c00f8b3ace44f5b2d0 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_033b93a75ef1433f535d533faa95b33f = $(`<div id="html_033b93a75ef1433f535d533faa95b33f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Momofuku (The Cosmopolitan)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_db4c28f7b430d8c00f8b3ace44f5b2d0.setContent(html_033b93a75ef1433f535d533faa95b33f);
+            
+        
+
+        circle_marker_bb02c5ef8bcd00b9db96b97f4db5b2af.bindPopup(popup_db4c28f7b430d8c00f8b3ace44f5b2d0)
+        ;
+
+        
+    
+    
+            circle_marker_bb02c5ef8bcd00b9db96b97f4db5b2af.bindTooltip(
+                `<div>
+                     Momofuku (The Cosmopolitan)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fb320806d4f3624af8b44fc89f3ab30e = L.circleMarker(
+                [36.112863, -115.172485],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_a301dc2b0e9f3945eb0a857fbb220010 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_4cbcf48e734452db21a66dfb22b0e439 = $(`<div id="html_4cbcf48e734452db21a66dfb22b0e439" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Mon Ami Gabi (Paris Las Vegas)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_a301dc2b0e9f3945eb0a857fbb220010.setContent(html_4cbcf48e734452db21a66dfb22b0e439);
+            
+        
+
+        circle_marker_fb320806d4f3624af8b44fc89f3ab30e.bindPopup(popup_a301dc2b0e9f3945eb0a857fbb220010)
+        ;
+
+        
+    
+    
+            circle_marker_fb320806d4f3624af8b44fc89f3ab30e.bindTooltip(
+                `<div>
+                     Mon Ami Gabi (Paris Las Vegas)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5e55c1fe58f88f42b339d1cff3b8ee37 = L.circleMarker(
+                [36.112466, -115.172192],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_d1cfd868b16161813ab8151eeb835d52 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_27079827d8f7d2d385b44e0e6368dcc3 = $(`<div id="html_27079827d8f7d2d385b44e0e6368dcc3" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Eiffel Tower Restaurant (Paris Las Vegas)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_d1cfd868b16161813ab8151eeb835d52.setContent(html_27079827d8f7d2d385b44e0e6368dcc3);
+            
+        
+
+        circle_marker_5e55c1fe58f88f42b339d1cff3b8ee37.bindPopup(popup_d1cfd868b16161813ab8151eeb835d52)
+        ;
+
+        
+    
+    
+            circle_marker_5e55c1fe58f88f42b339d1cff3b8ee37.bindTooltip(
+                `<div>
+                     Eiffel Tower Restaurant (Paris Las Vegas)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cef852f87d327e7225051fb3a20c466d = L.circleMarker(
+                [36.101993, -115.169106],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_646765d19dceb7e9821bd05b76a6e403 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_d427312d2a72e2ac476e8dce12aa9107 = $(`<div id="html_d427312d2a72e2ac476e8dce12aa9107" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Joël Robuchon (MGM Grand)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_646765d19dceb7e9821bd05b76a6e403.setContent(html_d427312d2a72e2ac476e8dce12aa9107);
+            
+        
+
+        circle_marker_cef852f87d327e7225051fb3a20c466d.bindPopup(popup_646765d19dceb7e9821bd05b76a6e403)
+        ;
+
+        
+    
+    
+            circle_marker_cef852f87d327e7225051fb3a20c466d.bindTooltip(
+                `<div>
+                     Joël Robuchon (MGM Grand)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_18081966250328c684c519530ec7d8e4 = L.circleMarker(
+                [36.102847, -115.168487],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_1158c0ef45881ab013d42d7ad48e0cfa = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_5bc1f713275067dfaad6d24a09586e88 = $(`<div id="html_5bc1f713275067dfaad6d24a09586e88" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Emeril's New Orleans Fish House (MGM Grand)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_1158c0ef45881ab013d42d7ad48e0cfa.setContent(html_5bc1f713275067dfaad6d24a09586e88);
+            
+        
+
+        circle_marker_18081966250328c684c519530ec7d8e4.bindPopup(popup_1158c0ef45881ab013d42d7ad48e0cfa)
+        ;
+
+        
+    
+    
+            circle_marker_18081966250328c684c519530ec7d8e4.bindTooltip(
+                `<div>
+                     Emeril's New Orleans Fish House (MGM Grand)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6fa1a479a1ad8d621ba8921dfec140c3 = L.circleMarker(
+                [36.110532, -115.172214],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_3a5a9dea5639e7e8c529e46c53502bd5 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_11beae1f9df819a89c139a407d6841a0 = $(`<div id="html_11beae1f9df819a89c139a407d6841a0" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Strip House (Planet Hollywood)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_3a5a9dea5639e7e8c529e46c53502bd5.setContent(html_11beae1f9df819a89c139a407d6841a0);
+            
+        
+
+        circle_marker_6fa1a479a1ad8d621ba8921dfec140c3.bindPopup(popup_3a5a9dea5639e7e8c529e46c53502bd5)
+        ;
+
+        
+    
+    
+            circle_marker_6fa1a479a1ad8d621ba8921dfec140c3.bindTooltip(
+                `<div>
+                     Strip House (Planet Hollywood)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_742660b850a4097324cba8c13e97abd2 = L.circleMarker(
+                [36.091919, -115.176656],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_cfcd354585fce56e1d3f0b883bfffb58 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_05075cf70e586dab2c1a76471a832905 = $(`<div id="html_05075cf70e586dab2c1a76471a832905" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Lupo by Wolfgang Puck (Mandalay Bay)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_cfcd354585fce56e1d3f0b883bfffb58.setContent(html_05075cf70e586dab2c1a76471a832905);
+            
+        
+
+        circle_marker_742660b850a4097324cba8c13e97abd2.bindPopup(popup_cfcd354585fce56e1d3f0b883bfffb58)
+        ;
+
+        
+    
+    
+            circle_marker_742660b850a4097324cba8c13e97abd2.bindTooltip(
+                `<div>
+                     Lupo by Wolfgang Puck (Mandalay Bay)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_482efdca0cfd44e798d4f627824b37f4 = L.circleMarker(
+                [36.093093, -115.177702],
+                {"bubblingMouseEvents": true, "color": "#9E9E9E", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#9E9E9E", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_f3f8cec175e87dc38888e469f1e54337 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_7baf1a3a5dd522606cb445177fd8a832 = $(`<div id="html_7baf1a3a5dd522606cb445177fd8a832" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif;">                 <b style="font-size: 16px;">Rivea (Delano Las Vegas)</b><br>                 No traffic data available             </div>             </div>`)[0];
+                popup_f3f8cec175e87dc38888e469f1e54337.setContent(html_7baf1a3a5dd522606cb445177fd8a832);
+            
+        
+
+        circle_marker_482efdca0cfd44e798d4f627824b37f4.bindPopup(popup_f3f8cec175e87dc38888e469f1e54337)
+        ;
+
+        
+    
+    
+            circle_marker_482efdca0cfd44e798d4f627824b37f4.bindTooltip(
+                `<div>
+                     Rivea (Delano Las Vegas)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bafce4a1a1e06198bdf776c5ba081d4f = L.circleMarker(
+                [36.115015, -115.171803],
+                {"bubblingMouseEvents": true, "color": "#2196F3", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2196F3", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.0, "stroke": true, "weight": 3}
+            ).addTo(map_1d61be133ccdcac59f6a7bc2ede4b863);
+        
+    
+        var popup_7cce35c6855b287302ddce3c769e6ae2 = L.popup({
+  "maxWidth": 300,
+});
+
+        
+            
+                var html_ae66c15f8272428e3f658a28a13b22f8 = $(`<div id="html_ae66c15f8272428e3f658a28a13b22f8" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial, sans-serif; min-width: 220px;">                 <b style="font-size: 16px;">The Cromwell</b><br>                 <b>Strip Region:</b> North<br>                 <b>Avg "Traffic" Index:</b> 52.77<br>                 <b>Total Reviews:</b> 1488<br>                 <b>Avg Rating:</b> 3.33 &#9733;<br>                 <b>Peak Month:</b> 2022-03<br>                 <b>Months of Clean Data:</b> 12             </div>             </div>`)[0];
+                popup_7cce35c6855b287302ddce3c769e6ae2.setContent(html_ae66c15f8272428e3f658a28a13b22f8);
+            
+        
+
+        circle_marker_bafce4a1a1e06198bdf776c5ba081d4f.bindPopup(popup_7cce35c6855b287302ddce3c769e6ae2)
+        ;
+
+        
+    
+    
+            circle_marker_bafce4a1a1e06198bdf776c5ba081d4f.bindTooltip(
+                `<div>
+                     The Cromwell
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
