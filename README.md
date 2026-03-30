@@ -78,7 +78,7 @@ python Scripts/generate_insights_image.py
 
 ## Key Outputs
 
-- `loyalty_sentiment_monthly_v2.csv` — Monthly sentiment scores by operator (use for time series)
+- `loyalty_sentiment_monthly_v2.csv` — Monthly sentiment scores by operator used Natural Language Processing for analysis (use for time series)
 - `yoy_growth_rates.csv` — Year-over-year growth signals
 - `loyalty_insights_dashboard.png` — Summary dashboard image
 - `las_vegas_strip_map.html` — Interactive map (open in browser)
